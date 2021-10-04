@@ -1,0 +1,63 @@
+@media (max-width: 1100px) {
+  .header{
+    width: 90%;
+  }
+  .contenedor{
+    width: 92%;
+    height: 70vh;
+    gap: 80px;
+  }
+  .footer{
+    width: 90%;
+  }
+ .container{
+   width: 450px;
+   height: 450px;
+ }
+  }
+
+  @media (max-width: 880px) {
+
+    .header{
+      height: 10vh;
+      font-size: 20px;
+    }
+
+    .contenedor {
+      flex-direction: column-reverse;
+      height: 85vh;
+      gap: 22px;
+  }
+  .container{
+    width: 500px;
+    height: 500px;
+  }
+
+  .btnContainer {
+    gap: 7px;
+    width: 80%;
+}
+
+.items {
+  padding: 10px 0px;
+  font-size: 14px;
+  }
+  .counter{
+    font-size: 20px;
+  }
+
+  .footer{
+    height: 5vh;
+  }
+}
+
+@media (max-width: 600px) {
+.container{
+  width: 340px;
+  height: 340px;
+}
+
+.contenedor{
+  gap: 90px;
+}
+}

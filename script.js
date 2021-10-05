@@ -1,50 +1,78 @@
+const default_color = "";
+const default_mode = "black";
+const default_size = "16";
+
+let currentMode = default_mode,
+  currentSize = default_size,
+  currentColor = default_color;
+
 let fragment = document.createDocumentFragment(),
   contenedor = document.querySelector("#contenedor"),
   clean = document.querySelector("#clean"),
   rango = document.querySelector("#rango"),
   container = document.querySelector("#container"),
-  counter = document.querySelector("#counter")
-  
+  counter = document.querySelector("#counter");
+
 let btnblack = document.querySelector("#black"),
-  black = true,
   btnrainbow = document.querySelector("#rainbow"),
-  rainbow = false,
   btnGrayScale = document.querySelector("#grayScale"),
-  grayScale = false,
-  colorBox = document.querySelector("#colorBox")
+  colorBox = document.querySelector("#colorBox");
 
+let setCurrentMode = (newMode) => {
+  btnActive(newMode);
+  currentMode = newMode;
+};
 
-
-
-  let colorActive = ""
-
-  window.addEventListener('DOMContentLoaded', () => {
-   rango.value = 16
-   counter.textContent = `${rango.valueAsNumber} X ${rango.valueAsNumber}`
-});
-
-
-let color = () => {
-  if (colorActive == "") {
-    colorActive = "red";
-  } else if (colorActive == "red") {
-    colorActive = "orange";
-  }else if (colorActive == "orange") {
-    colorActive = "yellow";
-  }else if (colorActive == "yellow") {
-    colorActive = "green";
-  }else if (colorActive == "green") {
-    colorActive = "blue";
-  }else if (colorActive == "blue") {
-    colorActive = "violet";
-  }else if (colorActive == "violet") {
-    colorActive = "red";
+let btnActive = (newMode) => {
+  if (currentMode == "black") {
+    btnblack.classList.remove("active");
+    colorBox.classList.remove("black");
+  } else if (currentMode == "grayScale") {
+    btnGrayScale.classList.remove("active");
+    colorBox.classList.remove("grayScale");
+  } else if (currentMode == "rainbow") {
+    btnrainbow.classList.remove("active");
+    colorBox.classList.remove("rainbow");
   }
 
-return colorActive
+  if (newMode == "black") {
+    btnblack.classList.add("active");
+    colorBox.classList.add("black");
+  } else if (newMode == "grayScale") {
+    btnGrayScale.classList.add("active");
+    colorBox.classList.add("grayScale");
+  } else if (newMode == "rainbow") {
+    btnrainbow.classList.add("active");
+    colorBox.classList.add("rainbow");
+  }
+};
+
+let color = () => {
+  if (currentColor == "") {
+    currentColor = "red";
+  } else if (currentColor == "red") {
+    currentColor = "orange";
+  } else if (currentColor == "orange") {
+    currentColor = "yellow";
+  } else if (currentColor == "yellow") {
+    currentColor = "green";
+  } else if (currentColor == "green") {
+    currentColor = "blue";
+  } else if (currentColor == "blue") {
+    currentColor = "violet";
+  } else if (currentColor == "violet") {
+    currentColor = "red";
+  }
+
+  return currentColor;
 };
 
 let elementCreater = (number = 16) => {
+
+
+  container.style.gridTemplateColumns = `repeat(${number},1fr)`;
+  container.style.gridTemplateRows = `repeat(${number},1fr)`;
+
   for (let i = 0; i < number * number; i++) {
     let element = document.createElement("DIV");
 
@@ -55,106 +83,47 @@ let elementCreater = (number = 16) => {
   container.appendChild(fragment);
 };
 
-elementCreater();
+
 
 container.addEventListener("mouseover", (e) => {
-  if (black == true) {
-e.target.style.backgroundColor = 'black'
-
- 
-  } else if (grayScale == true) {
-e.target.style.backgroundColor = 'gray'
-  } else if (rainbow == true) {
-color()
-    e.target.style.backgroundColor = colorActive
-}});
-
-
-
-let cleanse = () => {
-  let replace = document.createDocumentFragment();
-
-  for (let i = 0; i < rango.valueAsNumber * rango.valueAsNumber; i++) {
-    let element = document.createElement("DIV");
-
-    element.classList.add(`elemento${i}`, "cuadrito");
-    replace.appendChild(element);
+  if (currentMode == "black") {
+    e.target.style.backgroundColor = "black";
+  } else if (currentMode == "grayScale") {
+    e.target.style.backgroundColor = "gray";
+  } else if (currentMode == "rainbow") {
+    color();
+    e.target.style.backgroundColor = currentColor;
   }
+});
 
-  container.replaceChildren(replace);
+let clearGrid = ()=>{
+  container.innerHTML = "";
+}
+let cleanse = () => {
+  clearGrid()
+  elementCreater(currentSize);
 };
 
-btnblack.addEventListener("click", (e) => {
-  black = true;
-  grayScale = false;
-  rainbow = false;
-  colorActive = ''
-  btnblack.classList.add('active')
-  colorBox.classList.add('black')
-  btnGrayScale.classList.remove('active')
-  colorBox.classList.remove('gray')
-  btnrainbow.classList.remove('active')
-  colorBox.classList.remove('rainbow')
+btnblack.addEventListener ("click", () => setCurrentMode("black"))
+
+btnGrayScale.addEventListener("click", () => setCurrentMode("grayScale"));
+
+btnrainbow.addEventListener("click", () => setCurrentMode("rainbow"));
+
+rango.addEventListener("mousemove", (e) => {
+  currentSize = e.target.value
+  counter.textContent = `${e.target.value} X ${e.target.value}`;
 });
 
-btnGrayScale.addEventListener("click", () => {
-  black = false;
-  grayScale = true;
-  rainbow = false;
-  colorActive = ''
-  btnGrayScale.classList.add('active')
-
-  btnblack.classList.remove('active')
-  btnrainbow.classList.remove('active')
-
-  colorBox.classList.add('gray')
-  colorBox.classList.remove('black')
-  colorBox.classList.remove('rainbow')
-});
-
-btnrainbow.addEventListener("click", () => {
-  black = false;
-  grayScale = false;
-  rainbow = true;
-  colorActive = ''
-  btnrainbow.classList.add('active')
-  btnblack.classList.remove('active')
-  btnGrayScale.classList.remove('active')
-
-
-  colorBox.classList.add('rainbow')
-  colorBox.classList.remove('black')
-  colorBox.classList.remove('gray')
+rango.addEventListener("change", () => {
+cleanse()
 });
 
 
-rango.addEventListener("mousemove", () => {
-  counter.textContent = `${rango.valueAsNumber} X ${rango.valueAsNumber}`
+clean.addEventListener("click", () => cleanse());
+
+window.addEventListener("DOMContentLoaded", () => {
+  elementCreater(default_size);
+  rango.value = default_size
+
 });
-
-
-rango.addEventListener("mousedown", () => {
-for (let i = 0; i < rango.valueAsNumber*rango.valueAsNumber; i++) {
-  container.children[i].style.backgroundColor= `#fff`
-  
-}
-});
-
-
-
-rango.addEventListener("mouseup", () => {
-  cleanse()
-  container.style.gridTemplateColumns = `repeat(${rango.valueAsNumber},1fr)`;
-  container.style.gridTemplateRows = `repeat(${rango.valueAsNumber},1fr)`;
-});
-
-
-
-
-clean.addEventListener("click", () => {
-  for (let i = 0; i < rango.valueAsNumber*rango.valueAsNumber; i++) {
-    container.children[i].style.backgroundColor= `#fff`}
-    
-});
-
-

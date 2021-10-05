@@ -61,3 +61,41 @@
   gap: 90px;
 }
 }
+
+@media (max-width: 880px) and (max-height:970px){
+  .container {
+    width: 420px;
+    height: 420px;
+}
+}
+
+@media (max-width: 670px) and (max-height:870px){
+  .container {
+    width: 380px;
+    height: 380px;
+}
+}
+
+
+
+@media (max-width: 610px) and (max-height:840px){
+
+  .contenedor {
+    gap: 17px;
+}
+.container {
+  width: 350px;
+  height: 350px;
+}
+}
+
+@media (max-width: 610px) and (max-height:790px){
+
+  .contenedor {
+    gap: 10px;
+}
+.container {
+  width: 300px;
+  height: 300px;
+}
+}

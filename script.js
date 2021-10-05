@@ -85,6 +85,44 @@ let elementCreater = (number = 16) => {
 
 
 
+
+let updateCounter = (value)=>{ 
+  currentSize = value
+  counter.innerHTML = `${currentSize} X ${currentSize}`  }
+
+let clearGrid = ( ) => container.innerHTML = ""
+
+
+let reloadContainer = () => {
+  clearGrid()
+  elementCreater(currentSize);
+};
+
+let updateContainer = ()=>{
+  updateCounter()
+  reloadContainer()
+}
+
+
+
+btnblack.addEventListener ("click", () => setCurrentMode("black"))
+
+btnGrayScale.addEventListener("click", () => setCurrentMode("grayScale"));
+
+btnrainbow.addEventListener("click", () => setCurrentMode("rainbow"));
+
+rango.addEventListener("mousemove", (e) => updateCounter(e.target.value));
+
+rango.addEventListener("change", (e) => {
+  updateCounter(e.target.value)
+  reloadContainer()
+
+});
+
+
+clean.addEventListener("click", () => reloadContainer());
+
+
 container.addEventListener("mouseover", (e) => {
   if (currentMode == "black") {
     e.target.style.backgroundColor = "black";
@@ -96,34 +134,10 @@ container.addEventListener("mouseover", (e) => {
   }
 });
 
-let clearGrid = ()=>{
-  container.innerHTML = "";
-}
-let cleanse = () => {
-  clearGrid()
-  elementCreater(currentSize);
-};
-
-btnblack.addEventListener ("click", () => setCurrentMode("black"))
-
-btnGrayScale.addEventListener("click", () => setCurrentMode("grayScale"));
-
-btnrainbow.addEventListener("click", () => setCurrentMode("rainbow"));
-
-rango.addEventListener("mousemove", (e) => {
-  currentSize = e.target.value
-  counter.textContent = `${e.target.value} X ${e.target.value}`;
-});
-
-rango.addEventListener("change", () => {
-cleanse()
-});
-
-
-clean.addEventListener("click", () => cleanse());
 
 window.addEventListener("DOMContentLoaded", () => {
   elementCreater(default_size);
-  rango.value = default_size
+  updateCounter(currentSize)
+  rango.value = currentSize
 
 });
